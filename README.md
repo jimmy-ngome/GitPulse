@@ -1,35 +1,67 @@
 # GitPulse
 
-Analyze any GitHub profile and generate a visual report with charts and stats.
+A Python CLI tool that analyzes any GitHub profile and generates detailed statistics, charts, and a self-contained HTML report.
 
-![Python](https://img.shields.io/badge/Python-3.10+-3572A5?style=flat-square&logo=python&logoColor=white)
-![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)
+**[Portfolio](https://jimmmy-portfolio.vercel.app)**
+
+---
 
 ## Features
 
-- Fetches all public repos, languages, and activity from the GitHub API
-- Calculates language distribution, top repos, activity timeline
-- Generates charts (bar charts, timelines) with matplotlib
-- Produces a self-contained HTML report with dark theme
-- Exports raw data as JSON for further analysis
-- Supports GitHub token for higher API rate limits
-- Full pagination support (works with any number of repos)
+- **Language Distribution** — Top 15 languages by percentage of code (byte-weighted)
+- **Activity Timeline** — Monthly repository creation patterns over time
+- **Top Repositories** — Ranked by stars with metadata table
+- **Repository Sizes** — Largest repos visualization
+- **Topics Cloud** — Most frequently used tags across all repos
+- **HTML Report** — Dark-themed, self-contained report with embedded charts
+- **JSON Export** — Raw data export for further analysis
+- **Pagination** — Handles profiles with unlimited repositories
+- **Token Support** — Optional GitHub token for higher rate limits (60 → 5000 req/hour)
 
-## Quick start
+## Example Output
 
-```bash
-# Clone
-git clone https://github.com/YOUR_USERNAME/gitpulse.git
-cd gitpulse
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Analyze a profile
-python gitpulse.py torvalds
+```
+reports/octocat/
+├── report.html          # Self-contained HTML report
+├── data.json            # Raw data export
+└── charts/
+    ├── languages.png    # Language distribution
+    ├── activity.png     # Activity timeline
+    ├── stars.png        # Top repos by stars
+    └── sizes.png        # Largest repos
 ```
 
-## Usage
+## Tech Stack
+
+- **Python 3.10+**
+- **matplotlib** — Chart generation
+- **pandas** — Data analysis
+- **GitHub REST API v3**
+
+## Getting Started
+
+### Installation
+
+```bash
+git clone https://github.com/jimmy-ngome/GitPulse.git
+cd GitPulse
+pip install -r requirements.txt
+```
+
+### Usage
+
+```bash
+# Basic usage
+python gitpulse.py <username>
+
+# With GitHub token (recommended for better rate limits)
+python gitpulse.py <username> -t ghp_xxxxxxxxxxxx
+
+# Custom output directory
+python gitpulse.py <username> -o ./my-reports
+```
+
+### CLI Options
 
 ```
 usage: gitpulse.py [-h] [-t TOKEN] [-o OUTPUT] username
@@ -37,49 +69,22 @@ usage: gitpulse.py [-h] [-t TOKEN] [-o OUTPUT] username
 positional arguments:
   username              GitHub username to analyze
 
-optional arguments:
-  -t, --token TOKEN     GitHub personal access token (higher rate limits)
+options:
+  -t, --token TOKEN     GitHub personal access token
   -o, --output OUTPUT   Output directory (default: ./reports)
 ```
 
-### Examples
+### Example
 
 ```bash
-# Basic usage
 python gitpulse.py octocat
-
-# With a GitHub token for more API calls
-python gitpulse.py octocat -t ghp_xxxxxxxxxxxx
-
-# Or use an environment variable
-export GITHUB_TOKEN=ghp_xxxxxxxxxxxx
-python gitpulse.py octocat
-
-# Custom output directory
-python gitpulse.py octocat -o ./my-reports
 ```
 
-## Output
-
-For each analysis, GitPulse creates a folder in `reports/<username>/` containing:
-
-```
-reports/octocat/
-  report.html          # Visual HTML report (open in browser)
-  data.json            # Raw data for further analysis
-  charts/
-    languages.png      # Language distribution chart
-    activity.png       # Repo creation timeline
-    stars.png          # Top repos by stars
-    sizes.png          # Largest repos by size
-```
-
-## Tech stack
-
-- **Python 3.10+** - Core language
-- **matplotlib** - Chart generation
-- **pandas** - Data manipulation
-- **GitHub REST API** - Data source
+Generates a full report in `reports/octocat/` with:
+- Language breakdown (CSS 77.3%, HTML 22.4%, JavaScript 0.2%)
+- 6 public repositories analyzed
+- 20,149 total stars tracked
+- 4 charts and an interactive HTML report
 
 ## License
 
