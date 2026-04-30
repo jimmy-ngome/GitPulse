@@ -394,17 +394,24 @@ def main():
     parser = argparse.ArgumentParser(
         description="GitPulse - Analyze any GitHub profile and generate a visual report."
     )
-    parser.add_argument("username", help="GitHub username to analyze")
+    parser.add_argument("username", nargs="?", help="GitHub username to analyze")
     parser.add_argument("-t", "--token", help="GitHub personal access token (optional, for higher rate limits)")
     parser.add_argument("-o", "--output", default="./reports", help="Output directory (default: ./reports)")
     args = parser.parse_args()
 
+    username = args.username
+    if not username:
+        username = input("Enter a GitHub username: ").strip()
+        if not username:
+            print("No username provided.")
+            sys.exit(1)
+
     token = args.token or os.environ.get("GITHUB_TOKEN")
-    output_dir = Path(args.output) / args.username
+    output_dir = Path(args.output) / username
     output_dir.mkdir(parents=True, exist_ok=True)
 
     # Fetch
-    user, repos = fetch_profile(args.username, token)
+    user, repos = fetch_profile(username, token)
 
     # Analyze
     print("Analyzing data...")
